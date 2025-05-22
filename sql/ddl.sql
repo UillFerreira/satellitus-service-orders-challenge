@@ -16,7 +16,7 @@ CREATE TABLE ordens_servico_status (
 );
 CREATE TABLE ordens_servico (
     id uuid primary key default(gen_random_uuid()),
-    protocolo text,
+    protocolo text unique not null,
     descricao text,
     endereco text,
     lat double precision not null,
