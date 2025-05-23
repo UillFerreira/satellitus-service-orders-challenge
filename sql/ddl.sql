@@ -26,4 +26,5 @@ CREATE TABLE ordens_servico (
     tecnico_id uuid not null references tecnicos(id),
     status_id uuid not null references ordens_servico_status(id)
 );
+create table usuario (id uuid primary key default(gen_random_uuid()), login text not null, password text not null);
 commit;
