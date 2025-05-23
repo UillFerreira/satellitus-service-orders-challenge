@@ -27,4 +27,5 @@ CREATE TABLE ordens_servico (
     status_id uuid not null references ordens_servico_status(id)
 );
 create table usuario (id uuid primary key default(gen_random_uuid()), login text not null, password text not null);
+insert into usuario (id, login, password) values ('77334473-f2aa-4906-bdac-e8e7778e0824', 'root', crypt('root', gen_salt('bf'))) on conflict(id) do nothing;
 commit;
