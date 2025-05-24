@@ -1,8 +1,10 @@
 <?php
-require_once __DIR__ . '/jwt.php';
 
-function checkAuth() {
-    $env = parse_ini_file(__DIR__ . '/../.env');
+require_once '../config/env.php';
+require_once 'jwt.php';
+
+function checkAuth()
+{
     $secret = getEnv('JWT_SECRET');
 
     $headers = getallheaders();
@@ -18,7 +20,6 @@ function checkAuth() {
         echo json_encode(['erro' => 'Formato inválido']);
         exit;
     }
-
     $payload = verify_jwt($token, $secret);
     if (!$payload) {
         http_response_code(401);

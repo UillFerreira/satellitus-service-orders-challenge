@@ -15,7 +15,8 @@ switch($uri) {
         break;
     case '/ordens-servico':
         $payload = checkAuth();
-        echo '{"ok", "ok"}';
+        require_once __DIR__ . '/../controllers/OsController.php';
+        (new OsController())->newOs($_POST['descricao'], $_POST['endereco'], $_POST['lat'], $_POST['lng'], $_POST['data_agendada']);
         break;
     default:
         http_response_code(404);
