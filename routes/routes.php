@@ -30,11 +30,8 @@ switch ($uri) {
         require_once __DIR__ . '/../controllers/AuthController.php';
         (new AuthController())->genToken($_POST['login'], $_POST['password']);
         break;
-    case '/ordens-servico':
-        if ($method != 'POST') {
-            defaultErrors(405, "Método não permitido. Use POST");
-            exit;
-        }
+    // Captura todos os endpoints que comecem em /ordens-servico
+    case strpos($uri, '/ordens-servico') === 0:
         // Valida a conexão
         $payload = checkAuth();
         require_once __DIR__ . '/../controllers/OsController.php';
@@ -42,7 +39,22 @@ switch ($uri) {
         $post_json = file_get_contents('php://input');
         $json = checkJson($post_json);
         $os = new OsController();
-        $os->newOs($json);
+        // Separa pelos metodos
+        if ($method == 'POST') {
+            $os->newOs($json);
+            exit;
+        }
+        // No patch, preciso pegar o ID e qual o endpoint, no caso só tem o de status
+        if ($method == 'PATCH') {
+            $segments = explode('/', trim($uri, '/'));
+            $id = $segments[1];
+            if ($segments[2] == 'status') {
+                $os->updateOs($id, $json);
+                exit;
+            }
+        }
+        http_response_code(404);
+        echo json_encode(['erro' => 'Rota não encontrada para a uri /ordens-servico']);
         break;
     default:
         http_response_code(404);
