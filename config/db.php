@@ -15,7 +15,7 @@ class pgsql {
             $stmt = $pdo->prepare($query);
             $stmt->execute($param);
             $pdo->commit();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             // Captura RAISE EXCEPTION (incluindo RAISE 'mensagem' sem código)
             $errorMessage = $e->getMessage();
