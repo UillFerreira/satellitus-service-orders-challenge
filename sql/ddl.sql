@@ -9,7 +9,9 @@ CREATE TABLE tecnicos (
     lng double precision not null,
     disponivel boolean not null
 );
-
+insert into tecnicos (id, nome, email, lat, lng, disponivel) values ('54fef83c-6e08-4e67-9838-923058fa252f', 'Fulano A', 'fulanoa@os.com', -22.92046657314744, -47.075578680404945, true) on conflict (id) do nothing;
+insert into tecnicos (id, nome, email, lat, lng, disponivel) values ('40ad0e67-6992-4908-aca5-82a278f91f0a', 'Fulano b', 'fulanob@os.com', -22.923490356481985, -47.079269399975345, true) on conflict (id) do nothing;
+insert into tecnicos (id, nome, email, lat, lng, disponivel) values ('80c6cf92-abe4-4d4d-95b0-4ccc6709c569', 'Fulano c', 'fulanoa@os.com', -22.739187043911983, -47.31063136770589, true) on conflict (id) do nothing;
 CREATE TABLE ordens_servico_status (
     id uuid primary key default(gen_random_uuid()),
     nome text not null
