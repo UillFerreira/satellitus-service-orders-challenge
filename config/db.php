@@ -9,12 +9,25 @@ class pgsql {
         ]);
     }
     public function query ($query, $param) {
-
-        $pdo = $this->conn();
-        $pdo->beginTransaction();
-        $stmt = $pdo->prepare($query);
-        $stmt->execute($param);
-        $pdo->commit();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $pdo = $this->conn();
+            $pdo->beginTransaction();
+            $stmt = $pdo->prepare($query);
+            $stmt->execute($param);
+            $pdo->commit();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Captura RAISE EXCEPTION (incluindo RAISE 'mensagem' sem código)
+            $errorMessage = $e->getMessage();
+            
+            // Extrai apenas a mensagem personalizada (remove informações do PDO)
+            if (preg_match('/SQLSTATE\[.*\]: (.*)/', $errorMessage, $matches)) {
+                $errorMessage = $matches[1];
+            }
+            http_response_code(500);
+            echo json_encode(['erro' => $errorMessage]);
+            exit;
+                
+        }
     }
 }
