@@ -24,7 +24,7 @@ CREATE TABLE ordens_servico (
     lat double precision,
     lng double precision,
     data_agendada timestamptz not null,
-    previsao time not null,
+    previsao timestamptz not null,
     tecnico_id uuid not null references tecnicos(id),
     status_id uuid not null references ordens_servico_status(id)
 );
