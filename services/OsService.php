@@ -48,4 +48,19 @@ class OsService {
         return $ret;
 
     }
+    public function selectOs($tecnico_id, $status, $data_ini, $data_fin) {
+        $date_format = "Y-m-d H:i:s";
+        // Data de agendamento
+        $d = DateTime::createFromFormat($date_format, $data_ini);
+        if (!$d) {
+            $data_ini = null;
+        }
+        $d = DateTime::createFromFormat($date_format, $data_fin);
+        if (!$d) {
+            $data_fin = null;
+        }
+        $ret = Os::selectFilterOs($tecnico_id, $status, $data_ini, $data_fin);
+        return $ret;
+         
+    }
 }

@@ -10,7 +10,7 @@ class Os
         // O caminho de utilizar a procedure foi para evitar fazer duas perguntas par ao banco de dados, tendo em vista que será necessário verificar o protocólo, pois não pode ter colisão.
         // Ainda que na tabela o protocólo esteja com um constraint unique, dentro da procedure posso validar isso em uma unica conexão e evitar o erro da constraint que daria no caso da colisão
         $ret = $pgsql->query(
-            "SELECT os__new(:descricao, :endereco, :lat, :lng, :data_agendamento, :previsao)", 
+            "SELECT * FROM os__new(:descricao, :endereco, :lat, :lng, :data_agendamento, :previsao)", 
             array(":descricao" => $descricao, ":endereco" => $endereco, ":lat" => $lat, ":lng" => $lng, ":data_agendamento" => $data_agendamento, ":previsao" => $previsao)
         );
         return $ret;
@@ -20,10 +20,18 @@ class Os
     public static function updateStatusOs($id, $tecnico_id) {
         $pgsql = new pgsql();
         $ret = $pgsql->query(
-            "SELECT os__update_status(:id, :tecnico_id)", 
+            "SELECT * FROM os__update_status(:id, :tecnico_id)", 
             array(":id" => $id, ":tecnico_id" => $tecnico_id)
         );
         return $ret;
 
+    }
+    public static function selectFilterOs($tecnico_id, $status, $data_ini, $data_fin) {
+        $pgsql = new pgsql();
+        $ret = $pgsql->query(
+            "SELECT * FROM os__list(:tecnico_id, :status, :data_ini, :data_fin)", 
+            array(":tecnico_id" => $tecnico_id, ":status" => $status, ":data_ini" => $data_ini, ":data_fin" => $data_fin)
+        );
+        return $ret;
     }
 }

@@ -7,7 +7,7 @@ require_once __DIR__ . '/../config/env.php';
 class AuthService {
     public function checkLogin($login, $password) {
         $ret = Usuario::getLogin($login);
-        if ($ret && password_verify($password, $ret['password'])) {
+        if ($ret && password_verify($password, $ret[0]['password'])) {
             $payload = [
                 'sub' => $ret['id'],
                 'iat' => time(),

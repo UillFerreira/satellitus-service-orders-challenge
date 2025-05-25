@@ -37,4 +37,8 @@ class OsController {
         $ret = $os->alterOs($id, $tecnico_id);
         echo json_encode($ret);
     }
+    public function listOs ($tecnico_id=null, $status=null, $data_ini=null, $data_fin=null) {
+        $os = new OsService();
+        echo json_encode($os->selectOs($tecnico_id, $status, $data_ini, $data_fin));
+    }
 }

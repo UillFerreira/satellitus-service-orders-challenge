@@ -37,7 +37,8 @@ switch ($uri) {
         require_once __DIR__ . '/../controllers/OsController.php';
         // Pega os dados do POST e valida o JSON
         $post_json = file_get_contents('php://input');
-        $json = checkJson($post_json);
+        if (!empty($post_json))
+            $json = checkJson($post_json);
         $os = new OsController();
         // Separa pelos metodos
         if ($method == 'POST') {
@@ -52,6 +53,14 @@ switch ($uri) {
                 $os->updateOs($id, $json);
                 exit;
             }
+        }
+        if ($method == 'GET') {
+            $tecnico_id = isset($_GET["tecnico_id"]) ? $_GET["tecnico_id"] : null;
+            $status = isset($_GET["status"]) ? $_GET["status"] : null;
+            $data_ini = isset($_GET["data_ini"]) ? $_GET["data_ini"] : null;
+            $data_fin = isset($_GET["data_fin"]) ? $_GET["data_fin"] : null;
+            $os->listOs($tecnico_id, $status, $data_ini, $data_fin);
+            exit;
         }
         http_response_code(404);
         echo json_encode(['erro' => 'Rota não encontrada para a uri /ordens-servico']);
