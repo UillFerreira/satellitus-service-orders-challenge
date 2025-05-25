@@ -10,14 +10,14 @@ class OsController {
         $data_agendada      = isset($json['data_agendada']) ? $json['data_agendada'] : null;
         $previsao           = isset($json['previsao']) ? $json['previsao'] : null;
                                
-        if (!$descricao || (!$endereco && (!$lat && !$lng)) || !$data_agendada || !$previsao) {
+        if (!$descricao || (!$lat || !$lng) || !$data_agendada || !$previsao) {
             http_response_code(400);
             echo json_encode(['erro' => 'Faltando parâmetros']);
             return;
         }
-
         $os = new OsService();
-        $os->createOs($descricao, $endereco, $lat, $lng, $data_agendada, $previsao);
+        $ret = $os->createOs($descricao, $endereco, $lat, $lng, $data_agendada, $previsao);
+        echo json_encode($ret);
 
     }
 }

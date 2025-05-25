@@ -41,7 +41,8 @@ switch ($uri) {
         // Pega os dados do POST e valida o JSON
         $post_json = file_get_contents('php://input');
         $json = checkJson($post_json);
-        (new OsController())->newOs($json);
+        $os = new OsController();
+        $os->newOs($json);
         break;
     default:
         http_response_code(404);

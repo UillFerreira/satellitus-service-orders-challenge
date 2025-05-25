@@ -1,6 +1,6 @@
 <?php
 
-//require_once __DIR__ . '/../models/Os.php';
+require_once __DIR__ . '/../models/Os.php';
 
 class OsService {
     private function defaultError ($status, $msg) {
@@ -39,8 +39,8 @@ class OsService {
     public function createOs($descricao, $endereco, $lat, $lng, $data_agendamento, $previsao) {
         // Vallidar os dados enviados
         $this->dataCheck($descricao, $endereco, $lat, $lng, $data_agendamento, $previsao);
-
-        //$ret = Os::saveOs();
+        $ret = Os::insertOs($descricao, $endereco, $lat, $lng, $data_agendamento, $previsao);
+        return $ret;
 
     }
 }
