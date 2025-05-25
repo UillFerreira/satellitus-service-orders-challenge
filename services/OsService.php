@@ -43,4 +43,9 @@ class OsService {
         return $ret;
 
     }
+    public function alterOs($id, $tecnico_id) {
+        $ret = Os::updateStatusOs($id, $tecnico_id);
+        return $ret;
+
+    }
 }

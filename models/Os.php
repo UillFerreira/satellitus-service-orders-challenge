@@ -15,4 +15,15 @@ class Os
         );
         return $ret;
     }
+    // Atualização dos status está sendo feita por uma procedure, lá é validado se a OS existe e se pertence ao técnico que envio
+    // Faz a troca dos status e retorn um json com o status atual
+    public static function updateStatusOs($id, $tecnico_id) {
+        $pgsql = new pgsql();
+        $ret = $pgsql->query(
+            "SELECT os__update_status(:id, :tecnico_id)", 
+            array(":id" => $id, ":tecnico_id" => $tecnico_id)
+        );
+        return $ret;
+
+    }
 }
