@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: satellitus-app
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_NAME: satellitus
+      DB_USER: postgres
+      DB_PASS: seqiq5aj
+      JWT_SECRET: 2fbf58b2-022f-409b-8eb3-d3679aea6fea
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:latest
+    container_name: satellitus-nginx
+    ports:
+      - "8000:80"           # expõe porta 8000 no host
+    volumes:
+      - .:/var/www/html     # código fonte compartilhado
+      - ./nginx.conf:/etc/nginx/nginx.conf  # arquivo nginx.conf na raiz
+    depends_on:
+      - app
+
+  db:
+    image: postgres:15
+    container_name: satellitus-db
+    environment:
+      POSTGRES_DB: satellitus
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: seqiq5aj
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./dump:/docker-entrypoint-initdb.d
+
+volumes:
+  pgdata:
+
