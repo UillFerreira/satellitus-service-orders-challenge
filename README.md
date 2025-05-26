@@ -61,11 +61,14 @@ Content-Type: application/json
   "error": "Credenciais inválidas"
 }
 ```
-**Exemplo
+**Exemplo**
 ```bash
 curl -X POST http://localhost8000/token -d "login=root&password=root" -H "Content-Type: application/x-www-form-urlencoded"
 
 ```
+**Credenciais para testar**
+login; root
+password: root
 
 ## 📡 Endpoints da API
 
